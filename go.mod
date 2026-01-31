@@ -1,3 +1,3 @@
-module Boot.Dev/github.com/Struhola/Gator
+module Gator
 
 go 1.25.4
