@@ -7,8 +7,8 @@ import (
 )
 
 func Write(cfg *Config) error {
-	//home, err := os.UserHomeDir()
-	home, err := os.Getwd()
+	home, err := os.UserHomeDir()
+	//home, err := os.Getwd()
 	if err != nil {
 		return err
 	}
