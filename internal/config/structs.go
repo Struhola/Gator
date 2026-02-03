@@ -1,4 +1,4 @@
-package Config
+package config
 
 type Config struct {
 	Db_URL            string `json:"db_url"`

@@ -1,25 +1,39 @@
 package main
 
 import (
-	"Gator/Internal/Commands"
-	"Gator/Internal/Config"
+	"Gator/internal/commands"
+	"Gator/internal/config"
+	"Gator/internal/database"
+	"database/sql"
 	"fmt"
 	"os"
+
+	_ "github.com/lib/pq"
 )
 
 func main() {
-	cfg, err := Config.Read()
+	cfg, err := config.Read()
 	if err != nil {
 		fmt.Println(err)
 	}
-	App_State := &Commands.State{
+
+	db, err := sql.Open("postgres", cfg.Db_URL)
+	if err != nil {
+		fmt.Printf("Error: %v\n", err)
+		os.Exit(1)
+	}
+	DB_Queries := database.New(db)
+	App_State := &commands.State{
+		DB:         DB_Queries,
 		App_Config: &cfg,
 	}
-	Cmds := Commands.Commands{
-		Cmd_List: make(map[string]func(*Commands.State, Commands.Command) error),
+
+	Cmds := commands.Commands{
+		Cmd_List: make(map[string]func(*commands.State, commands.Command) error),
 	}
 
-	Cmds.Register("login", Commands.Handler_Login)
+	Cmds.Register("login", commands.Handler_login)
+	Cmds.Register("register", commands.Handler_register)
 
 	if len(os.Args) < 2 {
 		fmt.Println("Usage: cli <command> [args...]")
@@ -27,7 +41,7 @@ func main() {
 	}
 	Cmd_Name := os.Args[1]
 	Cmd_Args := os.Args[2:]
-	User_Cmd := Commands.Command{
+	User_Cmd := commands.Command{
 		Name: Cmd_Name,
 		Args: Cmd_Args,
 	}
@@ -37,4 +51,5 @@ func main() {
 		fmt.Printf("Error: %v\n", err)
 		os.Exit(1)
 	}
+
 }

@@ -1,11 +1,13 @@
-package Commands
+package commands
 
 import (
-	"Gator/Internal/Config"
+	"Gator/internal/config"
+	"Gator/internal/database"
 )
 
 type State struct {
-	App_Config *Config.Config
+	DB         *database.Queries
+	App_Config *config.Config
 }
 
 type Command struct {
