@@ -1,0 +1,48 @@
+package commands
+
+import (
+	"Gator/internal/database"
+	"context"
+	"errors"
+	"fmt"
+	"log"
+	"os"
+	"time"
+
+	"github.com/google/uuid"
+)
+
+func Handler_add_feed(s *State, cmd Command) error {
+	if len(cmd.Args) != 2 {
+		return errors.New("You must provide 2 arguments 'Name' and 'URL' of the feed to be added.\n ")
+	}
+	feed_name := cmd.Args[0]
+	feed_url := cmd.Args[1]
+	current_user, err := s.DB.GetUser(context.Background(), s.App_Config.Current_User_Name)
+	if err != nil {
+		fmt.Printf("Error: user with name '%s' not found in the database.\n", s.App_Config.Current_User_Name)
+		os.Exit(1)
+	}
+
+	db_feed_params := database.CreateFeedParams{
+		ID:        uuid.New(),
+		CreatedAt: time.Now().UTC(),
+		UpdatedAt: time.Now().UTC(),
+		Name:      feed_name,
+		Url:       feed_url,
+		UserID:    current_user.ID,
+	}
+
+	feed, err := s.DB.CreateFeed(context.Background(), db_feed_params)
+	if err != nil {
+		if isDuplicateKeyError(err) {
+			fmt.Printf("Error: feed with name '%s' already exists\n", feed_name)
+			os.Exit(1)
+		}
+
+		log.Fatalf("could not create feed: %v", err)
+	}
+
+	fmt.Printf("Feed created successfully: %s (URL: %s | ID: %s)\n", feed.Name, feed.Url, feed.ID)
+	return nil
+}

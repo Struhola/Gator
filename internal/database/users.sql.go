@@ -13,7 +13,7 @@ import (
 )
 
 const clearUsers = `-- name: ClearUsers :exec
-Truncate Table users
+Truncate Table users CASCADE
 `
 
 func (q *Queries) ClearUsers(ctx context.Context) error {

@@ -15,7 +15,7 @@ FROM users
 WHERE name = $1;
 
 -- name: ClearUsers :exec
-Truncate Table users;
+Truncate Table users CASCADE;
 
 -- name: GetUsers :many
 SELECT id, created_at, updated_at, name
