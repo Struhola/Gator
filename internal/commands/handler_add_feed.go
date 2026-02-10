@@ -35,12 +35,19 @@ func Handler_add_feed(s *State, cmd Command) error {
 
 	feed, err := s.DB.CreateFeed(context.Background(), db_feed_params)
 	if err != nil {
-		if isDuplicateKeyError(err) {
-			fmt.Printf("Error: feed with name '%s' already exists\n", feed_name)
-			os.Exit(1)
-		}
-
 		log.Fatalf("could not create feed: %v", err)
+		os.Exit(1)
+	}
+
+	db_create_feed_follow_params := database.CreateFeedFollowParams{
+		UserID: current_user.ID,
+		FeedID: feed.ID,
+	}
+
+	_, err = s.DB.CreateFeedFollow(context.Background(), db_create_feed_follow_params)
+	if err != nil {
+		fmt.Printf("Error: couldn't create a feed follow record.\n")
+		os.Exit(1)
 	}
 
 	fmt.Printf("Feed created successfully: %s (URL: %s | ID: %s)\n", feed.Name, feed.Url, feed.ID)

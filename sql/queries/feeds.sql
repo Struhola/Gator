@@ -17,3 +17,8 @@ FROM feeds f
 JOIN users u
     ON f.user_id = u.id;
 
+-- name: GetFeedByUrl :one
+SELECT f.id, f.created_at, f.updated_at, f.name, f.url, f.user_id, u.name as user_name
+FROM feeds f
+JOIN users u
+    ON f.url = $1;

@@ -39,6 +39,8 @@ func main() {
 	Cmds.Register("agg", commands.Handler_agg)
 	Cmds.Register("addfeed", commands.Handler_add_feed)
 	Cmds.Register("feeds", commands.Handler_feeds)
+	Cmds.Register("follow", commands.Handler_follow)
+	Cmds.Register("following", commands.Handler_following)
 
 	if len(os.Args) < 2 {
 		fmt.Println("Usage: cli <command> [args...]")
