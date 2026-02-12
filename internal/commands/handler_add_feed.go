@@ -12,17 +12,12 @@ import (
 	"github.com/google/uuid"
 )
 
-func Handler_add_feed(s *State, cmd Command) error {
+func Handler_add_feed(s *State, cmd Command, user database.User) error {
 	if len(cmd.Args) != 2 {
 		return errors.New("You must provide 2 arguments 'Name' and 'URL' of the feed to be added.\n ")
 	}
 	feed_name := cmd.Args[0]
 	feed_url := cmd.Args[1]
-	current_user, err := s.DB.GetUser(context.Background(), s.App_Config.Current_User_Name)
-	if err != nil {
-		fmt.Printf("Error: user with name '%s' not found in the database.\n", s.App_Config.Current_User_Name)
-		os.Exit(1)
-	}
 
 	db_feed_params := database.CreateFeedParams{
 		ID:        uuid.New(),
@@ -30,7 +25,7 @@ func Handler_add_feed(s *State, cmd Command) error {
 		UpdatedAt: time.Now().UTC(),
 		Name:      feed_name,
 		Url:       feed_url,
-		UserID:    current_user.ID,
+		UserID:    user.ID,
 	}
 
 	feed, err := s.DB.CreateFeed(context.Background(), db_feed_params)
@@ -40,7 +35,7 @@ func Handler_add_feed(s *State, cmd Command) error {
 	}
 
 	db_create_feed_follow_params := database.CreateFeedFollowParams{
-		UserID: current_user.ID,
+		UserID: user.ID,
 		FeedID: feed.ID,
 	}
 

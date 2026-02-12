@@ -37,10 +37,10 @@ func main() {
 	Cmds.Register("reset", commands.Handler_reset)
 	Cmds.Register("users", commands.Handler_users)
 	Cmds.Register("agg", commands.Handler_agg)
-	Cmds.Register("addfeed", commands.Handler_add_feed)
+	Cmds.Register("addfeed", commands.Middleware_logged_in(commands.Handler_add_feed))
 	Cmds.Register("feeds", commands.Handler_feeds)
-	Cmds.Register("follow", commands.Handler_follow)
-	Cmds.Register("following", commands.Handler_following)
+	Cmds.Register("follow", commands.Middleware_logged_in(commands.Handler_follow))
+	Cmds.Register("following", commands.Middleware_logged_in(commands.Handler_following))
 
 	if len(os.Args) < 2 {
 		fmt.Println("Usage: cli <command> [args...]")
