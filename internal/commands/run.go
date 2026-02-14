@@ -1,8 +1,11 @@
 package commands
 
-import "fmt"
+import (
+	"Gator/internal/config"
+	"fmt"
+)
 
-func (c *Commands) Run(s *State, cmd Command) error {
+func (c *Commands) Run(s *config.State, cmd Command) error {
 
 	callback, ok := c.Cmd_List[cmd.Name]
 	if !ok {

@@ -1,13 +1,14 @@
 package commands
 
 import (
+	"Gator/internal/config"
 	"Gator/internal/database"
 	"context"
 	"fmt"
 )
 
-func Middleware_logged_in(handler func(s *State, cmd Command, user database.User) error) func(*State, Command) error {
-	return func(s *State, cmd Command) error {
+func Middleware_logged_in(handler func(s *config.State, cmd Command, user database.User) error) func(*config.State, Command) error {
+	return func(s *config.State, cmd Command) error {
 		userName := s.App_Config.Current_User_Name
 		if userName == "" {
 			return fmt.Errorf("this command requires you to be logged in")

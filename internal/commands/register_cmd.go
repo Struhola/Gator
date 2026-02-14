@@ -1,5 +1,7 @@
 package commands
 
-func (c *Commands) Register(name string, f func(*State, Command) error) {
+import "Gator/internal/config"
+
+func (c *Commands) Register(name string, f func(*config.State, Command) error) {
 	c.Cmd_List[name] = f
 }

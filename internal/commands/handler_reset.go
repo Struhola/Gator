@@ -1,13 +1,14 @@
 package commands
 
 import (
+	"Gator/internal/config"
 	"context"
 	"errors"
 	"fmt"
 	"os"
 )
 
-func Handler_reset(s *State, cmd Command) error {
+func Handler_reset(s *config.State, cmd Command) error {
 	if len(cmd.Args) > 0 {
 		return errors.New("This function takes no arguments.")
 	}

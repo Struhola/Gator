@@ -1,6 +1,7 @@
 package commands
 
 import (
+	"Gator/internal/config"
 	"Gator/internal/database"
 	"context"
 	"errors"
@@ -8,7 +9,7 @@ import (
 	"os"
 )
 
-func Handler_following(s *State, cmd Command, user database.User) error {
+func Handler_following(s *config.State, cmd Command, user database.User) error {
 	if len(cmd.Args) > 0 {
 		return errors.New("This function does not take arguments.")
 	}

@@ -1,8 +1,10 @@
 package commands
 
 import (
+	"Gator/internal/config"
 	"Gator/internal/database"
 	"context"
+	"database/sql"
 	"errors"
 	"fmt"
 	"log"
@@ -12,20 +14,26 @@ import (
 	"github.com/google/uuid"
 )
 
-func Handler_add_feed(s *State, cmd Command, user database.User) error {
+func Handler_add_feed(s *config.State, cmd Command, user database.User) error {
 	if len(cmd.Args) != 2 {
 		return errors.New("You must provide 2 arguments 'Name' and 'URL' of the feed to be added.\n ")
 	}
 	feed_name := cmd.Args[0]
 	feed_url := cmd.Args[1]
 
+	LastFetchedAt := sql.NullTime{
+		Time:  time.Now().UTC(),
+		Valid: true,
+	}
+
 	db_feed_params := database.CreateFeedParams{
-		ID:        uuid.New(),
-		CreatedAt: time.Now().UTC(),
-		UpdatedAt: time.Now().UTC(),
-		Name:      feed_name,
-		Url:       feed_url,
-		UserID:    user.ID,
+		ID:            uuid.New(),
+		CreatedAt:     time.Now().UTC(),
+		UpdatedAt:     time.Now().UTC(),
+		LastFetchedAt: LastFetchedAt,
+		Name:          feed_name,
+		Url:           feed_url,
+		UserID:        user.ID,
 	}
 
 	feed, err := s.DB.CreateFeed(context.Background(), db_feed_params)

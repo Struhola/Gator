@@ -1,19 +1,30 @@
 package commands
 
 import (
+	"Gator/internal/config"
 	"Gator/internal/rss"
-	"context"
 	"fmt"
+	"time"
 )
 
-func Handler_agg(s *State, cmd Command) error {
-	feedURL := "https://www.wagslane.dev/index.xml"
-
-	feed, err := rss.FetchFeed(context.Background(), feedURL)
-	if err != nil {
-		return fmt.Errorf("couldn't fetch feed: %w", err)
+func Handler_agg(s *config.State, cmd Command) error {
+	if len(cmd.Args) != 1 {
+		return fmt.Errorf("usage: %s <time_between_reqs>", cmd.Name)
 	}
 
-	fmt.Printf("%+v\n", feed)
-	return nil
+	timeBetweenRequests, err := time.ParseDuration(cmd.Args[0])
+	if err != nil {
+		return fmt.Errorf("invalid duration: %w", err)
+	}
+
+	fmt.Printf("Collecting feeds every %s\n", timeBetweenRequests)
+
+	ticker := time.NewTicker(timeBetweenRequests)
+	for ; ; <-ticker.C {
+		err := rss.ScrapeFeeds(s)
+		if err != nil {
+			fmt.Printf("Error scraping feeds: %v\n", err)
+			continue
+		}
+	}
 }

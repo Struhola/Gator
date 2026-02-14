@@ -1,13 +1,14 @@
 package commands
 
 import (
+	"Gator/internal/config"
 	"context"
 	"errors"
 	"fmt"
 	"os"
 )
 
-func Handler_feeds(s *State, cmd Command) error {
+func Handler_feeds(s *config.State, cmd Command) error {
 	if len(cmd.Args) > 0 {
 		return errors.New("This function does not take arguments.")
 	}

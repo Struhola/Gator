@@ -1,6 +1,7 @@
 package commands
 
 import (
+	"Gator/internal/config"
 	"Gator/internal/database"
 	"context"
 	"errors"
@@ -12,7 +13,7 @@ import (
 	"github.com/google/uuid"
 )
 
-func Handler_register(s *State, cmd Command) error {
+func Handler_register(s *config.State, cmd Command) error {
 	if len(cmd.Args) != 1 {
 		return errors.New("You must provide a single argument of a user name.")
 	}

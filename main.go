@@ -23,13 +23,13 @@ func main() {
 		os.Exit(1)
 	}
 	DB_Queries := database.New(db)
-	App_State := &commands.State{
+	App_State := &config.State{
 		DB:         DB_Queries,
 		App_Config: &cfg,
 	}
 
 	Cmds := commands.Commands{
-		Cmd_List: make(map[string]func(*commands.State, commands.Command) error),
+		Cmd_List: make(map[string]func(*config.State, commands.Command) error),
 	}
 
 	Cmds.Register("login", commands.Handler_login)

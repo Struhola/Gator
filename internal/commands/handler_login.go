@@ -1,13 +1,14 @@
 package commands
 
 import (
+	"Gator/internal/config"
 	"context"
 	"errors"
 	"fmt"
 	"os"
 )
 
-func Handler_login(s *State, cmd Command) error {
+func Handler_login(s *config.State, cmd Command) error {
 	if len(cmd.Args) != 1 {
 		return errors.New("You must provide a single argument of a user name.")
 	}
