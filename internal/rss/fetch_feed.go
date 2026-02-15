@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-func FetchFeed(ctx context.Context, feedURL string) (*RSSFeed, error) {
+func Fetch_feed(ctx context.Context, feedURL string) (*RSSFeed, error) {
 	httpClient := &http.Client{
 		Timeout: 10 * time.Second,
 	}

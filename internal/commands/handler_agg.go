@@ -21,7 +21,7 @@ func Handler_agg(s *config.State, cmd Command) error {
 
 	ticker := time.NewTicker(timeBetweenRequests)
 	for ; ; <-ticker.C {
-		err := rss.ScrapeFeeds(s)
+		err := rss.Scrape_feeds(s)
 		if err != nil {
 			fmt.Printf("Error scraping feeds: %v\n", err)
 			continue
