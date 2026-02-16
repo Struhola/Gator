@@ -78,7 +78,7 @@ goose -dir sql/schema postgres "postgres://username:password@localhost:5432/gato
 * **Browse Posts**: gator browse <optional_limit>
     Example: gator browse 5 (shows the 5 most recent posts).
 
-### **Development:**
+### **DEVELOPMENT:**
 To run the project in development mode without installing:
 ```Bash
 go run . <command> <args>
