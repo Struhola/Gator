@@ -32,7 +32,7 @@ go install github.com/Struhola/Gator@latest
 
 Ensure your $GOPATH/bin is in your system's PATH to run the gator command globally.
 
-### **Setup**
+### **SETUP**
 1. **Database Configuration**
 
     Create a new PostgreSQL database:
@@ -58,7 +58,7 @@ goose -dir sql/schema postgres "postgres://username:password@localhost:5432/gato
 ```
 
 
-### **Usage**
+### **USAGE**
 
 **User Commands**
 * **Register a user**: gator register <name>
